@@ -67,7 +67,6 @@ class App extends Component {
     let random = this.getRandomInt(max);
     return this.state.stateOfTheDapps[random]
   }
-
   getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
   }
