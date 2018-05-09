@@ -18,14 +18,21 @@ class App extends Component {
         teaser: "tease ya",
         url: "http://www.youtube.com/embed/xDMP3i36naA",
       },
+      likedDapps: [],
+      currentDappIndex: null,
     }
     this.fetchDappUrl = this.fetchDappUrl.bind(this);
     this.setCurrentDapp = this.setCurrentDapp.bind(this);
     this.getRandomInt = this.getRandomInt.bind(this);
     this.fetchSotd = this.fetchSotd.bind(this);
+    this.addToLikedDapps = this.addToLikedDapps.bind(this);
   }
   componentDidMount() {
     this.fetchSotd();
+  }
+
+  parseUrl(url) {
+    return url.replace('http:', 'https:');
   }
 
   fetchDappUrl() {
@@ -47,13 +54,15 @@ class App extends Component {
     }).then( data => {
       let stateOfTheDapps = [];
       data.values.forEach(x => {
-        let dappObject = {
-          name: x[0],
-          description: x[1],
-          teaser: x[2],
-          url: x[3]
-        };
-        stateOfTheDapps.push(dappObject);
+        if (x[3]) {
+          let dappObject = {
+            name: x[0],
+            description: x[1],
+            teaser: x[2],
+            url: this.parseUrl(x[3]),
+          };
+          stateOfTheDapps.push(dappObject);
+        }
       })
       this.setState((prevState) => {
         return {
@@ -63,10 +72,20 @@ class App extends Component {
     })
   }
 
+  addToLikedDapps() {
+    this.setState(prevState => {
+      return {likedDapps: [...prevState.likedDapps, this.state.currentDappIndex]}
+    })
+  }
+
   setCurrentDapp(max) {
     let random = this.getRandomInt(max);
+    this.setState(() => {
+      return {currentDappIndex: random}
+    })
     return this.state.stateOfTheDapps[random]
   }
+
   getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
   }
@@ -74,10 +93,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header clickFunction={this.fetchDappUrl}/>
+        <Header likeFunction={this.addToLikedDapps} clickFunction={this.fetchDappUrl}/>
         <Iframe url={this.state.currentDapp.url}
-                width="100%"
-                height="-webkit-fill-available"
+                width="100vh"
+                height="100vh"
                 id="dapp-container"
                 display="initial"
                 position="relative"

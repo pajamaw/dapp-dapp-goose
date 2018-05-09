@@ -8,6 +8,8 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import ShareDropdown from './ShareDropdown';
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -27,13 +29,17 @@ function Header(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
+        <Button onClick={() => props.clickFunction()} color="inherit">Next</Button>
+        <Button onClick={() => props.likeFunction()} color="inherit">
+          <i className="fas fa-thumbs-up"></i>
+        </Button>
+        <ShareDropdown />
           <Typography variant="title" color="inherit" className={classes.flex}>
             Dapp Dapp Goose
           </Typography>
-          <Button onClick={() => props.clickFunction()} color="inherit">Next</Button>
+          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+            <MenuIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
