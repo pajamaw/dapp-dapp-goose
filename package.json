@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.46",
     "@material-ui/icons": "^1.0.0-beta.43",
     "googleapis": "^29.0.0",
-    "material-ui": "^1.0.0-beta.45",
+    "material-ui": "^1.0.0-beta.46",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-iframe": "^1.1.0",
