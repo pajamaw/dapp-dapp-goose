@@ -2,6 +2,9 @@
   "name": "dapp-dapp-goose",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "6.* || 8.* || >= 10.*"
+  },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.46",
     "@material-ui/icons": "^1.0.0-beta.43",
