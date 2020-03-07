@@ -2,7 +2,7 @@
 coverage
 node_modules
 stats.json
-
+.git
 # Cruft
 .DS_Store
 npm-debug.log

@@ -1,24 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import AppBar from 'material-ui/AppBar';
-import Header from './Header';
 import Iframe from 'react-iframe';
+import './App.css';
+import Header from './header/index.js'
 
 const stateOfTheDappsSheetsUrl = "https://sheets.googleapis.com/v4/spreadsheets/1VdRMFENPzjL2V-vZhcc_aa5-ysf243t5vXlxC2b054g/values/A2:D?key=AIzaSyCEHwUcYchfR6-hMtdxYx5GQGFXi4LGFx4"
+const lsGetItem = 'ddgLikedDapps';
 
 class App extends Component {
   constructor() {
     super();
+    let likedDapps;
+    try {
+      likedDapps = localStorage.getItem(lsGetItem) && localStorage.getItem(lsGetItem) !== "undefined" ? JSON.parse(localStorage.getItem(lsGetItem)) : [];
+    } catch (err) {
+      localStorage.setItem(lsGetItem, null);
+      likedDapps = [];
+    }
     this.state = {
       stateOfTheDapps: [],
       currentDapp: {
         name: "Entry",
         description: "It's dapp dapp goose!",
         teaser: "tease ya",
-        url: "http://www.youtube.com/embed/xDMP3i36naA",
+        url: "https://www.youtube.com/embed/xDMP3i36naA",
       },
-      likedDapps: [],
+      likedDapps: likedDapps,
       currentDappIndex: null,
     }
     this.fetchDappUrl = this.fetchDappUrl.bind(this);
@@ -27,6 +33,7 @@ class App extends Component {
     this.fetchSotd = this.fetchSotd.bind(this);
     this.addToLikedDapps = this.addToLikedDapps.bind(this);
   }
+
   componentDidMount() {
     this.fetchSotd();
   }
@@ -40,7 +47,7 @@ class App extends Component {
       this.fetchSotd();
     } else {
       let currentDapp = this.setCurrentDapp(this.state.stateOfTheDapps.length);
-      this.setState((prevState) => {
+      this.setState(() => {
         return {
           currentDapp: currentDapp
         }
@@ -64,7 +71,7 @@ class App extends Component {
           stateOfTheDapps.push(dappObject);
         }
       })
-      this.setState((prevState) => {
+      this.setState(() => {
         return {
           stateOfTheDapps: stateOfTheDapps
         }
@@ -73,15 +80,19 @@ class App extends Component {
   }
 
   addToLikedDapps() {
+    let currentLikedDapps;
     this.setState(prevState => {
-      return {likedDapps: [...prevState.likedDapps, this.state.currentDappIndex]}
-    })
+      currentLikedDapps = [...prevState.likedDapps, prevState.currentDapp];
+      return { likedDapps: currentLikedDapps }
+    }, () => {
+      localStorage.setItem(lsGetItem, JSON.stringify(currentLikedDapps));
+    });
   }
 
   setCurrentDapp(max) {
     let random = this.getRandomInt(max);
     this.setState(() => {
-      return {currentDappIndex: random}
+      return { currentDappIndex: random }
     })
     return this.state.stateOfTheDapps[random]
   }
@@ -95,12 +106,12 @@ class App extends Component {
       <div className="App">
         <Header likeFunction={this.addToLikedDapps} clickFunction={this.fetchDappUrl}/>
         <Iframe url={this.state.currentDapp.url}
-                width="100vh"
-                height="100vh"
-                id="dapp-container"
-                display="initial"
-                position="relative"
-                allowFullScreen/>
+          width="100vh"
+          height="100vh"
+          id="dapp-container"
+          display="initial"
+          position="relative"
+          allowFullScreen/>
       </div>
     );
   }

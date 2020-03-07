@@ -8,7 +8,7 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import ShareDropdown from './ShareDropdown';
+import ShareDropdown from '../sharedropdown/index.js';
 
 const styles = {
   root: {
@@ -52,7 +52,7 @@ const styles = {
   },
 };
 
-function Header(props) {
+const Header = (props) => {
   const { classes } = props;
   return (
     <div className={classes.root}>
@@ -75,8 +75,8 @@ function Header(props) {
   );
 }
 
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+// Header.propTypes = {
+//   classes: PropTypes.object.isRequired,
+// };
 
 export default withStyles(styles)(Header);
