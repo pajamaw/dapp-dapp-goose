@@ -11,6 +11,7 @@ const style = {
   minWidth: '160px',
   minHeight: '160px',
   top: '0',
+  color: 'white',
   left: '150',
 };
 
@@ -59,7 +60,7 @@ class ShareDropdown extends Component {
         <Button
           onClick={this.handleClick}
         >
-          <i class="fas fa-share-alt"></i>
+          <i className="fas fa-share-alt"></i>
         </Button>
         <Popover
           open={this.state.open}

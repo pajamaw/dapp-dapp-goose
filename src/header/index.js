@@ -12,14 +12,43 @@ import ShareDropdown from './ShareDropdown';
 
 const styles = {
   root: {
-    flexGrow: 1,
+    display: 'flex',
+    background: 'linear-gradient(#3d3c38 80%, #605e59)',
+    height: '50px',
+    width: '100%',
+    alignItems: 'space-evenly',
   },
-  flex: {
-    flex: 1,
+  tools: {
+    minHeight: '50px',
+  },
+  siteActionButtons: {
+    margin: 'auto',
+    color: '#fff',
+    background: '#318FC2',
+    borderRadius: '6px',
+    '&:hover': {
+      backgroundColor: '#1f5e80',
+      boxShadow: 'inset 3px 3px rgba(31,93,128,0.5)'
+    }
+  },
+  shareButton: {
+    color: 'white',
+  },
+  title: {
+    fontSize: '1em',
   },
   menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+    marginLeft: 'auto',
+    height: '30px',
+    width: '30px',
+    marginRight: '0',
+    '&:hover': {
+      height: '30px',
+      width: '30px',
+      borderRadius: '6px',  
+      backgroundColor: '#202120',
+      boxShadow: '3px 3px rgba(32,32,32,0.5)'
+    }
   },
 };
 
@@ -27,16 +56,16 @@ function Header(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-        <Button onClick={() => props.clickFunction()} color="inherit">Next</Button>
-        <Button onClick={() => props.likeFunction()} color="inherit">
-          <i className="fas fa-thumbs-up"></i>
-        </Button>
-        <ShareDropdown />
-          <Typography variant="title" color="inherit" className={classes.flex}>
+      <AppBar className={classes.root} position="static">
+        <Toolbar className={classes.tools}>
+          <Typography variant="title" color="inherit" className={classes.title}>
             Dapp Dapp Goose
           </Typography>
+          <Button onClick={() => props.clickFunction()} className={classes.siteActionButtons}>Next</Button>
+          <Button onClick={() => props.likeFunction()} className={classes.siteActionButtons}>
+            <i className="fas fa-thumbs-up"></i>
+          </Button>
+          <ShareDropdown className={classes.shareButton} />
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>
