@@ -55,7 +55,7 @@ const styles = {
 };
 
 const Header = (props) => {
-  const { classes } = props;
+  const { classes, shareToggleShown, shareToggle } = props;
   return (
     <div className={classes.root}>
       <AppBar className={classes.root} position="static">
@@ -67,7 +67,10 @@ const Header = (props) => {
           <Button onClick={() => props.likeFunction()} className={classes.siteActionButtons}>
             <i className="fas fa-thumbs-up"></i>
           </Button>
-          <ShareDropdown className={classes.shareButton} />
+          <Button onClick={() => props.dislikeFunction()} className={classes.siteActionButtons}>
+            <i className="fas fa-thumbs-down"></i>
+          </Button>
+          <ShareDropdown shareToggleShown={shareToggleShown} shareToggle={shareToggle} className={classes.shareButton} />
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
             <MenuIcon />
           </IconButton>

@@ -6,13 +6,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
 
 const style = {
-  display: 'inline-block',
-  margin: '16px 32px 16px 0',
-  minWidth: '160px',
-  minHeight: '160px',
-  top: '0',
-  color: 'white',
-  left: '150',
+  width: '30vw',
+  position: 'relative',
+  height: '30vh',
+  background: 'white',
+  zIndex: '100'
 };
 
 const MenuBiz = () => (
@@ -32,46 +30,41 @@ class ShareDropdown extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
-      open: false,
-    };
+      // anchorEl: '#dapp-container'
+    }
   }
 
   handleClick = (event) => {
     // This prevents ghost click.
     event.preventDefault();
 
-    this.setState(prevState => ({
-      open: !prevState.open,
-      anchorEl: event.currentTarget,
-    }));
   };
 
-  handleRequestClose = () => {
-    this.setState({
-      open: false,
-    });
-  };
+  // handleRequestClose = () => {
+  //   this.setState({
+  //     open: false,
+  //   });
+  // };
 
   render() {
     return (
       <div>
-        <Button
-          onClick={this.handleClick}
-        >
+        <Button onClick={this.props.shareToggle}>
           <i className="fas fa-share-alt"></i>
         </Button>
-        <Popover
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'top'}}
-          onRequestClose={this.handleRequestClose}
-        >
-          <MenuBiz />
-        </Popover>
-      </div>
+        
+        {this.props.shareToggleShown && 
+          <div style={style}>
+            <Menu>
+              <MenuItem primaryText="Refresh" />
+              <MenuItem primaryText="Help &amp; feedback" />
+              <MenuItem primaryText="Settings" />
+              <MenuItem primaryText="Sign out" />
+            </Menu>
+          </div>
+        }
+        </div>
     );
   }
 }

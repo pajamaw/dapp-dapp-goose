@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Iframe from 'react-iframe';
 import './App.css';
+
 import Header from './header/index.js'
+import HomePage from './homepage/index.js'
 
 const stateOfTheDappsSheetsUrl = "https://sheets.googleapis.com/v4/spreadsheets/1VdRMFENPzjL2V-vZhcc_aa5-ysf243t5vXlxC2b054g/values/A2:D?key=AIzaSyCEHwUcYchfR6-hMtdxYx5GQGFXi4LGFx4"
-const lsGetItem = 'ddgLikedDapps';
+const likedDappsString = 'ddgLikedDapps';
+const dislikedDappsString = 'ddgDislikedDapps';
 
 const style = {
   width:"100%",
@@ -15,11 +18,15 @@ class App extends Component {
   constructor() {
     super();
     let likedDapps;
+    let dislikedDapps;
     try {
-      likedDapps = localStorage.getItem(lsGetItem) && localStorage.getItem(lsGetItem) !== "undefined" ? JSON.parse(localStorage.getItem(lsGetItem)) : [];
+      likedDapps = localStorage.getItem(likedDappsString) && localStorage.getItem(likedDappsString) !== "undefined" ? JSON.parse(localStorage.getItem(likedDappsString)) : [];
+      dislikedDapps = localStorage.getItem(likedDappsString) && localStorage.getItem(dislikedDappsString) !== "undefined" ? JSON.parse(localStorage.getItem(dislikedDappsString)) : [];
     } catch (err) {
-      localStorage.setItem(lsGetItem, null);
+      localStorage.setItem(likedDappsString, null);
       likedDapps = [];
+      localStorage.setItem(dislikedDappsString, null);
+      dislikedDapps = [];
     }
     this.state = {
       stateOfTheDapps: [],
@@ -30,13 +37,18 @@ class App extends Component {
         url: "https://www.youtube.com/embed/xDMP3i36naA",
       },
       likedDapps: likedDapps,
+      dislikedDapps: dislikedDapps,
       currentDappIndex: null,
+      shareToggleShown: false,
+      homePageShown: true,
     }
     this.fetchDappUrl = this.fetchDappUrl.bind(this);
     this.setCurrentDapp = this.setCurrentDapp.bind(this);
     this.getRandomInt = this.getRandomInt.bind(this);
     this.fetchSotd = this.fetchSotd.bind(this);
     this.addToLikedDapps = this.addToLikedDapps.bind(this);
+    this.shareToggle = this.shareToggle.bind(this);
+    this.dislike = this.dislike.bind(this);
   }
 
   componentDidMount() {
@@ -54,7 +66,9 @@ class App extends Component {
       let currentDapp = this.setCurrentDapp(this.state.stateOfTheDapps.length);
       this.setState(() => {
         return {
-          currentDapp: currentDapp
+          currentDapp: currentDapp,
+          shareToggleShown: false,
+          homePageShown: false,
         }
       });
     }
@@ -90,7 +104,17 @@ class App extends Component {
       currentLikedDapps = [...prevState.likedDapps, prevState.currentDapp];
       return { likedDapps: currentLikedDapps }
     }, () => {
-      localStorage.setItem(lsGetItem, JSON.stringify(currentLikedDapps));
+      localStorage.setItem(likedDappsString, JSON.stringify(currentLikedDapps));
+    });
+  }
+
+  dislike() {
+    let currentDisikedDapps;
+    this.setState(prevState => {
+      currentDisikedDapps = [...prevState.dislikedDapps, prevState.currentDapp];
+      return { dislikedDapps: currentDisikedDapps }
+    }, () => {
+      localStorage.setItem(dislikedDappsString, JSON.stringify(currentDisikedDapps));
     });
   }
 
@@ -106,17 +130,35 @@ class App extends Component {
     return Math.floor(Math.random() * Math.floor(max));
   }
 
+  shareToggle() {
+    this.setState(prevState => {
+      return {shareToggleShown: !prevState.shareToggleShown}
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <Header likeFunction={this.addToLikedDapps} clickFunction={this.fetchDappUrl}/>
-        <Iframe url={this.state.currentDapp.url} 
+        <Header 
+          shareToggleShown={this.state.shareToggleShown} 
+          shareToggle={this.shareToggle} 
+          likeFunction={this.addToLikedDapps} 
+          clickFunction={this.fetchDappUrl}
+          dislikeFunction={this.dislike}
+        />
+        {this.state.homePageShown ? 
+        
+        true
+        
+        
+        : <Iframe url={this.state.currentDapp.url} 
           style={style}
           id="dapp-container"
           width="100vw"
           height="100vh"
           display="initial"
           allowFullScreen/>
+        }
       </div>
     );
   }
