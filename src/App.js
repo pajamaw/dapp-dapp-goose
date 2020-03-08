@@ -6,6 +6,11 @@ import Header from './header/index.js'
 const stateOfTheDappsSheetsUrl = "https://sheets.googleapis.com/v4/spreadsheets/1VdRMFENPzjL2V-vZhcc_aa5-ysf243t5vXlxC2b054g/values/A2:D?key=AIzaSyCEHwUcYchfR6-hMtdxYx5GQGFXi4LGFx4"
 const lsGetItem = 'ddgLikedDapps';
 
+const style = {
+  width:"100%",
+  height:"100%",
+}
+
 class App extends Component {
   constructor() {
     super();
@@ -105,12 +110,12 @@ class App extends Component {
     return (
       <div className="App">
         <Header likeFunction={this.addToLikedDapps} clickFunction={this.fetchDappUrl}/>
-        <Iframe url={this.state.currentDapp.url}
-          width="100vh"
-          height="100vh"
+        <Iframe url={this.state.currentDapp.url} 
+          style={style}
           id="dapp-container"
+          width="100vw"
+          height="100vh"
           display="initial"
-          position="relative"
           allowFullScreen/>
       </div>
     );

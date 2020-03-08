@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Button from 'material-ui/Button';
-import Popover from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/Menu/MenuItem';
-import Paper from 'material-ui/Paper';
+import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
 
 const style = {
   display: 'inline-block',
