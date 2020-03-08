@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
@@ -31,15 +30,8 @@ class ShareDropdown extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // anchorEl: '#dapp-container'
     }
   }
-
-  handleClick = (event) => {
-    // This prevents ghost click.
-    event.preventDefault();
-
-  };
 
   // handleRequestClose = () => {
   //   this.setState({

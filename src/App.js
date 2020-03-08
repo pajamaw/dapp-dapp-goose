@@ -120,10 +120,15 @@ class App extends Component {
 
   setCurrentDapp(max) {
     let random = this.getRandomInt(max);
+    // if (this.state.stateOfTheDapps[random] && this.state.stateOfTheDapps[random].url) {
+    //   this.state.dislikedDapps.forEach(dapp => {
+    //     if (dapp && dapp.url && dapp.url == )
+    //   })
+    // }
     this.setState(() => {
       return { currentDappIndex: random }
     })
-    return this.state.stateOfTheDapps[random]
+    return this.state.stateOfTheDapps[random];
   }
 
   getRandomInt(max) {
@@ -146,18 +151,15 @@ class App extends Component {
           clickFunction={this.fetchDappUrl}
           dislikeFunction={this.dislike}
         />
-        {this.state.homePageShown ? 
-        
-        true
-        
-        
-        : <Iframe url={this.state.currentDapp.url} 
-          style={style}
-          id="dapp-container"
-          width="100vw"
-          height="100vh"
-          display="initial"
-          allowFullScreen/>
+        {this.state.homePageShown ?  <HomePage /> : 
+          <Iframe url={this.state.currentDapp.url} 
+            style={style}
+            id="dapp-container"
+            width="100vw"
+            height="100vh"
+            display="initial"
+            allowFullScreen
+          />
         }
       </div>
     );
